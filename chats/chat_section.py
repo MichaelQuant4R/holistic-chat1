@@ -6,6 +6,8 @@ from flask_socketio import (emit, send, join_room, leave_room, disconnect,
 import time
 from config import  domain, rooms_dict
 
+
+
 app_chat = Blueprint("chat_section", __name__, template_folder = "templates_chat",
 #                      url_prefix="/holistic_chat",
                      static_folder = "static_chats",
