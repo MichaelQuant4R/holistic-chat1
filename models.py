@@ -24,7 +24,9 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = '\xd2\xf6Km%\x14\xff&\xe0\x97\x05\xf1\xe1Zv\x82\x88\x00R?T*\x82\xb8D\n\xc3P[Di\x17\xb6\x05b\x1e2\xfc\xe7\xaf'
 
 
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
+
+
 
 gravatar = Gravatar(app,
                     size=100,
