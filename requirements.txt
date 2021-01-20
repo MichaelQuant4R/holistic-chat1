@@ -19,4 +19,3 @@ greenlet==0.4.15
 tornado==6.0.3
 python-engineio==2.3.2
 python-socketio==2.0.0
-socketio==0.2.1
