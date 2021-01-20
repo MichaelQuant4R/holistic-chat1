@@ -23,3 +23,4 @@ tornado==6.0.3
 Flask_Migrate==2.5.3
 alembic==1.4.2
 Flask_Gravatar==0.5.0
+eventlet==0.30.0
