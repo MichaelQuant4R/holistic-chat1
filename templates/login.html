@@ -1,0 +1,191 @@
+{% extends "layout.html" %}
+{% block base %}
+{{super()}}
+
+<style>
+    
+#form-container{
+    
+    padding:15px;
+    width:50%;
+    background-color:var(--container);
+    padding-bottom:50px;
+    border-radius:5px;
+    }
+    
+    
+    
+
+
+    
+    
+    
+#chat-title{
+    
+    font-size:40px;
+    font-weight:bold;
+    font-style:italic;
+    color:#f2f2f2f2;
+    margin-bottom:5px;
+    padding:2px;
+    }
+    
+    
+input{
+    
+    width:60%;
+    height:25px;
+    
+    font-size:15px;
+    }
+    
+input[type=submit]{
+    
+    background-color:var(--submit);
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    border:none;
+    cursor:pointer;
+    padding:5px;
+    
+    
+    }
+    
+    
+#toggle-password{
+    
+    cursor:pointer;
+    
+    font-style:italic;
+    font-family:arial;
+    font-size:15px;
+    }
+    
+    
+label{
+    text-transform:capitalize;
+    }
+    
+    
+    
+</style>
+
+
+
+
+
+
+
+
+<center>
+    
+    <h4 >{{title.title()}}</h4>
+<hr>
+
+
+    
+    
+<div id="form-container">
+    <a href="{{url_for('home')}}">
+    <div id="chat-title">Chat App</div>
+        
+    </a>
+
+    
+    
+    
+    
+    
+    
+<form method = "POST">
+    {{form.hidden_tag()}}
+    
+   {{form.email.label()}}<br>
+    {{form.email()}}<br>
+        <span class="validation-error">{{"".join(form.email.errors)}}</span><br>
+    
+    {{form.password.label()}}<br>
+    {{form.password()}}<br>
+        <span class="validation-error">{{"".join(form.password.errors)}}</span><br>
+  
+    {{form.submit()}}
+    
+</form>
+    <br>
+    <div id="toggle-password" onclick="TogglePassword()">Toggle Passwords</div><br>
+    <div class="question">Not a member? <span class="click-here"><a href="{{url_for('register')}}">Click here</a></span></div>
+    
+    
+    </div>
+</center>
+
+
+
+
+
+
+
+
+<script>
+    
+var pword = document.getElementById("password");
+
+
+
+
+    
+function TogglePassword(){
+    
+    
+    
+    if(pword.type != "text" ){
+        
+        
+        pword.type = "text";
+        
+        
+    }else{
+         pword.type = "password";
+       
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+};
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+</script>
+
+
+
+
+{% endblock base %}

@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+{% block base %}
+{{super()}}
+
+<style>
+    
+#bubble-container{
+    
+    padding:10px;
+    background-color:var(--container);
+    width:50%;
+    border-radius:5px;
+    position:relative;
+    
+/*     left:40%; */
+    top:200px;
+    height:300px;
+    
+    }
+    
+
+.speech-bubble-left{
+    background-color:#f2f2f2;
+    color:black;
+    border-radius:30%;
+    }
+    
+.speech-bubble-right{
+    background-color:#f3f3f3;
+    color:black;
+    border-radius:30%;
+    }
+
+    
+    
+</style>
+
+<center>
+{% set total = random_text|length %}
+
+<div id="bubble-container">
+{% for i in range(total) %}
+
+
+
+<div id="speech-{{i}}" class="speech-bubble"><span class="random-text">{{random_text[i]}}</span>
+</div>
+
+
+
+
+{% endfor %}
+    
+</div>
+
+</center>
+
+
+
+<script>
+    
+var randomText = {{random_text|tojson}};
+
+    var bubbles = document.getElementsByClassName("speech-bubble");
+    console.log(bubbles.length);
+    
+    for(var i = 0; i < randomText.length; i++){
+        
+        console.log("I", i);
+        if(i%2 == 0){
+        
+            bubbles[i].className + "-left";
+        
+        }else{
+            
+            bubbles[i].className + "-right";
+            
+            
+        }
+        
+        
+    }
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock base %}

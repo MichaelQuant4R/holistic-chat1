@@ -1,0 +1,282 @@
+{% extends "layout.html" %}
+{% block base %}
+{{super()}}
+
+<style>
+
+.speech-bubble-left {
+	position: relative;
+    left:300px;
+    top:60%;
+	background: #0097bd;
+	border-radius: 10px;
+    height:100px;
+    width:10%;
+    padding:5px;
+    word-wrap:break-all;
+    height:10%;
+    animation: spring-up-left 0s linear 5s infinite forwards;
+    opacity:0;
+}
+
+.speech-bubble-left:after {
+	content: '';
+	position: absolute;
+	bottom: -20px;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 42px solid transparent;
+	border-top-color: #0097bd;
+	border-bottom: 0;
+	border-right: 0;
+	margin-left: -21px;
+	margin-bottom: -30px;
+}
+
+.speech-bubble-right {
+    position: relative;
+    left:300px;
+    top:60%;
+    background: #0097bd;
+    border-radius: 10px;
+    height:100px;
+    width:10%;
+    padding:5px;
+    word-wrap:break-all;
+    height:10%;
+    animation: spring-up-right 0s linear 5s infinite forwards;
+    opacity:0;
+}
+
+.speech-bubble-right:after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 42px solid transparent;
+    border-top-color: #0097bd;
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -21px;
+    margin-bottom: -30px;
+    
+}
+    
+.speech-text{
+    color:white;
+    font-weight:bold;
+    position:relative;
+    left:20px;
+    top:10px;
+    word-wrap:keep-all;
+}
+    
+ 
+    
+@keyframes spring-up-right{
+    0%{
+        top:55%;
+        left:55%;
+        opacity:0.2;
+    }
+    25%{
+        top:50%;
+        left:60%;
+        opacity:0.4;
+    }
+    50%{
+        top:45%;
+        left:65%;
+        opacity:0.6;
+    }
+    75%{
+            top:40%;
+        left:70%;
+        opacity:0.8;
+    }
+    100%{
+      top:35%;
+        left:75%;
+        opacity:1;
+        transition:0.2s ease-out;
+    }
+}
+    
+    
+    
+    
+@keyframes spring-up-left{
+    
+    0%{
+        top:55%;
+        left:45%;
+        opacity:0.2;
+    }
+    
+    25%{
+        top:50%;
+        left:40%;
+        opacity:0.4;
+    }
+    50%{
+        top:45%;
+        left:35%;
+        opacity:0.6;
+    }
+    75%{
+            top:40%;
+        left:30%;
+        opacity:0.8;
+    }
+    100%{
+      top:35%;
+        left:25%;
+        opacity:1;
+        transition:0.2s ease-out;
+    }
+}
+    
+    
+
+
+
+
+</style>
+
+
+
+
+
+
+<div id="bubble">
+    <span class="speech-text">
+    
+    
+    </span></div>
+
+
+
+<script>
+
+var bub = document.getElementById("bubble")
+// var anim = bub[0].getAnimations()
+var speechText = document.getElementsByClassName("speech-text")
+
+
+var list = [];
+    
+    
+var randomText = ["Add a unique username!", "a password you'll remember!", "make sure the passwords match!",
+                  "username must be 3-25 characters long", "make sure your email is valid"]
+
+
+for(var i =0; i < randomText.length; i++){
+    
+    list.push(i);
+}
+
+function textIndex(){
+    var number = Math.round(Math.random()*10)
+    var text;
+    if(number in list){
+        
+        text = randomText[number]
+    }
+    else{
+        
+        
+        text= randomText[0]
+    }
+    
+    console.log("Text", text);
+    
+    
+    speechText[0].innerText = text;
+    return text;
+    
+};
+   
+
+
+
+
+function toggleBubbleAnimation(){
+    
+    var number = Math.round(Math.random()*10)
+    var animationName
+    if(number%2 == 0){
+
+        bub.className = "speech-bubble-left";
+        textIndex();
+    }else{
+        bub.className = "speech-bubble-right";
+        textIndex();
+    }
+    
+//     anim[0].effect.target.style.animationName = animationName;
+};
+
+    
+setInterval(toggleBubbleAnimation, 5200);
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+{% endblock base %}

@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+{% block base %}
+{{super()}}
+
+
+
+
+<style>
+    
+    
+
+    
+.chat-room-select{
+    
+    
+    background-color:var(--select-btn);
+    }
+
+#room-container{
+    
+    
+    width:50%;
+    background-color:var(--container);
+    
+    
+    }
+    
+
+
+    
+.chat-room-select{
+    width:50%;
+    padding:5px;
+    border:none;
+    cursor:pointer;
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+    
+        transition:0.2s ease-out;
+    -webkit-transition:0.2s ease-out;
+    -o-transition:0.2s ease-out;
+    -moz-transition:0.2s ease-out;
+    -ms-transition:0.2s ease-out;
+    
+    }
+    
+    
+
+.chat-room-select:hover{
+
+    background-color:var(--selected-input);
+    
+    transition:0.2s ease-in;
+    -webkit-transition:0.2s ease-in;
+    -o-transition:0.2s ease-in;
+    -moz-transition:0.2s ease-in;
+    -ms-transition:0.2s ease-in;
+    
+    }
+    
+
+    
+</style>
+
+
+<h4>{{title.title()}}</h4>
+<hr>
+
+<center>
+    
+{% set total = rooms_dict|length %}
+<div id="room-container">
+    <span id="total-rooms">Available Rooms: <span id="room-counter">{{total}}</span></span><br>
+    <hr>
+{% for room in rooms_dict %}
+
+ <a href="{{url_for('chat_section.chat_room', room = room)}}">
+
+    <button class="chat-room-select">
+   {{room}}
+    </button></a>
+    
+        <br><br>
+    
+
+
+
+{% endfor %}
+</div>
+
+</center>
+
+
+
+<script>
+
+
+
+</script>
+
+
+{% include "INCLUDES/footer.html" %}
+{% block footer %}{% endblock footer %}
+
+
+
+
+
+{% endblock base %}

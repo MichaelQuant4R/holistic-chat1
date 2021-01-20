@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    {% if title %}
+    <title>{{title.title()}} - Holistic Chat</title>
+    {% else %}
+    <title>Default - Holistic Chat</title>
+    {% endif %}
+    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="icon" height="16px" width="16px" type="image/png" href="{{url_for('static',filename='images/bubble-icon.png')}}">
+    
+    
+</head>
+
+<style>
+
+    :root {
+  --blue: #6495ed;
+  --white: #faf0e6;
+  --container: rgba(10,150, 180, 0.4);
+  --submit: seaGreen;
+  --select-btn: DodgerBlue;
+  --selected-input: SeaGreen;
+      
+      
+      
+        
+}
+    
+    *{
+     list-style:none;
+    text-decoration:none;
+        
+        
+        
+    }
+    
+body{
+    overflow-x:hidden;
+    background-color:SkyBlue;
+    font-size:20px;
+    
+}
+    
+
+    
+.validation-error{
+    
+    color:darkred;
+    font-size:16px;
+    font-weight:bold;
+    margin:2px;
+    
+    
+    }
+    
+    
+li.success{
+    
+    padding:18px 170px 0px 20px;
+    width:100%;
+    background-color:DodgerBlue;
+    color:#f2f2f2f2;
+    
+    font-size:20px;
+    font-weight:bold;
+    margin:-22px;
+    margin-left:-14px;
+/*     padding-left:1px; */
+    transition:0.3s ease-in;
+    position:relative;
+    right:50px;
+/*     transition:0.2s ease-out; */
+    
+    
+    }
+    
+li.info{
+    
+    padding:18px 170px 0px 20px;
+    width:100%;
+    background-color:rgba(200, 10, 10, 1.0);
+    color:#f2f2f2f2;
+    
+    font-size:20px;
+    font-weight:bold;
+    margin:-22px;
+    margin-left:-14px;
+/*     padding-left:1px; */
+    transition:0.3s ease-in;
+    position:relative;
+    right:50px;
+/*     transition:0.2s ease-out; */
+    
+    
+    }
+ 
+</style>
+    
+    
+    
+<body>
+        
+    {% block base %}
+    
+    
+    <center>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul id="flash-ul">
+        {% for msg in messages %}
+        
+            <li class="{{msg[0]}}">{{msg[1]}}</li>
+        
+        
+        </ul>
+        {% endfor %}
+        {% endif %}
+        
+        {% endwith %}
+        
+        
+        
+        
+    </center>
+    
+    {% if current_user.is_authenticated %}
+    
+    <a href="{{url_for('home')}}">Home</a>
+    <a href="{{url_for('profile', user_id=current_user.id, username=current_user.username)}}">{{current_user.username.title()}}</a>
+    <a href="{{url_for('logout')}}">Logout</a>
+   
+    
+    
+    {% else %}
+    
+    <a href="{{url_for('home')}}">Home</a>
+    <a href="{{url_for('register')}}">Register</a>
+    <a href="{{url_for('login')}}">Login</a>
+    
+    
+    
+    {% endif %}
+    
+    
+    
+    {% endblock base %}
+    
+    
+    
+        
+        
+        
+        
+        
+        
+        
+<script>
+            
+var flash = document.getElementById("flash-ul");
+    
+function autoDeleteFlash(){
+    
+    
+    flash.style.display = "none";
+    
+};
+    
+if(flash != null){
+setTimeout(autoDeleteFlash, 3500);
+    
+};
+    
+    
+    
+    
+        
+        
+</script>
+        
+        
+        
+    </body>
+</html>

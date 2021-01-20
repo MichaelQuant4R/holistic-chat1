@@ -1,0 +1,205 @@
+<style>    
+.speech-bubble {
+	position: relative;
+	background: #0097bd;
+	border-radius: 10px;
+    height:100px;
+    animation: spring-up-right 3s linear 0.2s infinite forwards;
+    top:60%;
+    left:50%;
+    opacity:0;
+    width:10rem;
+    padding:7px;
+    border:5px solid DodgerBlue;
+    border-radius:25%;
+}
+    
+
+@keyframes spring-up-right{
+    0%{
+        top:55%;
+        left:55%;
+        opacity:0.2;
+    }
+    25%{
+        top:50%;
+        left:60%;
+        opacity:0.4;
+    }
+    50%{
+        top:45%;
+        left:65%;
+        opacity:0.6;
+    }
+    75%{
+            top:40%;
+        left:70%;
+        opacity:0.8;
+    }
+    100%{
+      top:35%;
+        left:75%;
+        opacity:1;
+        transition:0.2s ease-out;
+    }
+}
+    
+    
+    
+    
+@keyframes spring-up-left{
+    
+    0%{
+        top:55%;
+        left:45%;
+        opacity:0.2;
+    }
+    
+    25%{
+        top:50%;
+        left:40%;
+        opacity:0.4;
+    }
+    50%{
+        top:45%;
+        left:35%;
+        opacity:0.6;
+    }
+    75%{
+            top:40%;
+        left:30%;
+        opacity:0.8;
+    }
+    100%{
+      top:35%;
+        left:25%;
+        opacity:1;
+        transition:0.2s ease-out;
+    }
+}
+    
+    
+/* REFERENCE FOR ANIMATION
+    
+    @keyframes
+animation-name
+animation-duration
+animation-delay
+animation-iteration-count
+animation-direction
+animation-timing-function
+animation-fill-mode
+animation
+
+     */
+
+    
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 42px solid transparent;
+	border-top-color: #0097bd;
+	border-bottom: 0;
+	border-left: 0;
+	margin-left: -21px;
+	margin-bottom: -30px;
+    
+}
+    
+.speech-text{
+    color:#f2f2f2;
+    font-weight:bold;
+    position:relative;
+    left:20px;
+    top:10px;
+    word-wrap:keep-all;
+    font-size:17px;
+    
+}
+    
+#bubble-container{
+    
+    width:50%;
+    padding:10px;
+    height:50%;
+    background-color:rgba(100, 120, 10, 0.4);
+    position:relative;
+    }
+    
+</style>
+
+<div id="bubble-container">
+{% set text_count = random_text|length %}
+{% for i in range(text_count) %}
+
+<div class="speech-bubble" id="speech-{{i}}"><span class="speech-text">{{random_text[i]}}</span></div>
+{% endfor %}
+    
+</div>
+
+<script>
+var bubbles = document.getElementsByClassName("speech-bubble")
+var speechText = document.getElementsByClassName("speech-text")
+var randomText = {{random_text|tojson}};
+    
+// setInterval(textIndex, 5200);
+
+function toggleBubbleAnimation(){
+    
+    var number = Math.round(Math.random()*10)
+    var animationName;
+    
+    for(var i = 0; i < bubbles.length; i++){
+        
+        var anim = bubbles[i].getAnimations();
+        if(number%2 == 0){
+
+            animationName = "spring-up-left"
+
+            bubbles[i].style.transform = "rotateX(180)";
+        }else{
+            animationName = "spring-up-right"
+            bubbles[i].style.transform = "rotateX(-180)";
+        }
+
+        anim.effect.target.style.animationName = animationName;
+    }
+    
+};
+
+    
+setInterval(toggleBubbleAnimation, 3000);
+
+    
+    
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

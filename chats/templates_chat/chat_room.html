@@ -1,0 +1,406 @@
+{% extends "layout.html" %}
+{% block base %}
+{{super()}}
+
+<link rel="stylesheet" type="text/css" href="{{url_for('chat_section.static', filename='css/chat_room.css')}}">
+
+
+
+<div id="full-chat-container">
+<center>
+    
+    
+      <span id="chat-room-title">Room: {{room}}</span>
+
+    <div id="chat-container">
+        
+
+      
+        
+          <div id="message-container">
+        <ul id="messages">
+                      {% if chats %}
+        {% for chat in chats %}
+        
+        {% if chat.user.id == current_user.id %}
+        
+            {% set chat_msg_class = "chat-msg-container" %}
+        
+        {% else %}
+        
+             {% set chat_msg_class = "chat-msg-container-other" %}
+        
+        {% endif %}
+            <div class="{{chat_msg_class}}"><a href="/profile/{{chat.user.id}}/{{chat.user.username}}">
+            <img src="{{chat.user.get_image()}}" class='user-image'>
+            <span class='user-name'>{{chat.user.username.title()}}</span></a>
+            <span class='timestamp'>{{chat.timestamp}}</span><br><br>
+            <div class='user-msg'>{{chat.text}}</div>
+            </div><br>
+
+        
+        
+    
+        
+        
+        
+        {% endfor %}
+        {% endif %}
+              
+              
+              
+              
+              
+              
+              
+              </ul>
+              
+              
+        </div>
+        
+        
+        
+    </div><br>
+
+<form method = "POST">
+    
+    
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+    <textarea id="chat-text" placeholder="Add to the conversation..."></textarea><br>
+    
+   
+    
+    <input id="chat-submit" type="button" value="Submit">
+    
+    
+   
+    
+    
+</form>  <button  id="leave-room">Leave Room</button><br>
+
+ </center>
+
+<div id="chat-users-list">
+     <span id="users-count">Users: <span id="users-in-room"></span></span><br>
+        <div id="users-in-chat">
+        </div>
+    
+</div>
+
+</div>
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+var room = {{room|tojson}};
+var currentUserID = {{current_user.id|tojson}};
+var token = {{csrf_token()|tojson}};
+var userName = {{current_user.username|tojson}};
+    
+var domain = {{domain|tojson}};
+
+var messages = document.getElementById("messages");
+
+var totalUsers = document.getElementById("users-in-room");
+console.log(room, currentUserID);
+console.log(token);
+var chatUsersList = document.getElementById("users-in-chat");
+
+// var chatUsersList = document.getElementById("chat-users-list");
+
+
+var talk = new SpeechSynthesisUtterance();
+    
+    
+console.log("DOMAIN", domain);
+    
+    
+    
+$(document).ready(function(){
+    
+    var socket = io.connect(domain);
+    
+    console.log("TEST CONNECTION!!!");
+    
+    console.log(socket);
+    
+    joinRoom(room);
+    
+    socket.on("msg", function(msg){
+        
+        console.log("MSG!");
+        console.log(msg);
+        
+        
+        var userNameJoin = msg["msg"];
+        
+        console.log(userNameJoin);
+        
+        var usersDict = msg["users_dict"][room];
+        
+        console.log(usersDict);
+        
+        var usersList = Object.keys(usersDict);
+        totalUsers.innerText = usersList.length;
+        
+        console.log(usersList);
+        
+        chatUsersList.innerHTML = "";
+        
+        for(var i =0; i < usersList.length; i++){
+            
+            
+            var ID = usersList[i];
+            console.log(ID);
+            
+            
+            var addUser = usersDict[ID];
+            console.log(addUser);
+            
+            
+            var userName = addUser["username"];
+            var userID = addUser["user_id"];
+            var image = addUser["image"];
+            var newName = userName[0].toUpperCase() + userName.slice(1,);
+            
+            
+            chatUsersList.innerHTML += "<div class='user-info' id='user-" + userID + "'>"
+                                + "<a href='/profile/" + userID + "/" + userName + "' >"
+                            + "<img src=" + image + " class='user-image'>"
+                           +  "<span class='user-name'>" + newName + "</span></a>"
+                                + "</div>";
+        };
+        
+        
+         $("#messages").append("<div>" + userNameJoin + "</div>");
+
+    });
+    
+    function joinRoom(room){
+        
+        console.log("JOINED ROOM!");
+        socket.emit("join", {"username": userName, "room": room, "user_id": currentUserID});
+        
+    };
+    
+    
+//     ON CHATTING /////////////////////////////////////////////////////////
+     
+    
+    $("#chat-submit").on("click", function(){
+        
+        
+        
+        var myMessage = document.getElementById("chat-text");
+        
+        
+        console.log("MY MESSAGE!");
+        
+        var text = myMessage.value;
+        console.log(text);
+        
+        myMessage.value = "";
+        
+
+        
+        socket.send({"message": text, "room": room,
+                     "username": userName});
+
+        
+        
+    });
+   
+    
+        
+    socket.on("message", function(msg){
+        
+        
+        console.log("MSG");
+        console.log(msg);
+        
+        var image = msg["image"];
+        var userName = msg["username"]
+        var userID = msg["user_id"];
+        var newName = userName[0].toUpperCase() + userName.slice(1,);
+        var text = msg["message"];
+        var timeStamp = msg["timestamp"];
+        var chatID = msg["chat_id"];
+        var chatMessageClass;
+        
+
+        
+        
+        if(userID == currentUserID){
+            
+            
+            newName = "You";
+            
+            var chatMsgClass ='chat-msg-container';
+            
+        }
+        else{
+            
+            var chatMsgClass ='chat-msg-container-other';
+            
+        }
+        
+        
+        function scrollToCurrentMsg() {
+          var elmnt = document.getElementById("chat-" + chatID);
+          elmnt.scrollIntoView();
+        }
+        
+        
+        var userMessage = "<div class=" + chatMsgClass + " id='chat-" + chatID + "'>"
+                          + "<a href='/profile/" + userID + "/" + userName + "' >"
+                            + "<img src=" + image + " class='user-image'>"
+            
+                           +  "<span class='user-name'>" + newName + "</span></a>"
+                            + "<span class='timestamp'>" + timeStamp + "</span><br><br>"
+                        + "<div class='user-msg'>" + text + "</div>"
+        
+        
+                        + "</div><br>";
+        
+       
+
+        
+        
+        $("#messages").append(userMessage);
+        
+         scrollToCurrentMsg();
+        
+        
+        
+        
+        
+    });
+    
+    
+
+// ON LEAVING //////////////////////////////////////////////////////////////////
+     
+    
+    
+    
+    
+    
+    // Trigger 'leave' event if user was previously on a room
+    $("#leave-room").on("click", function(){
+
+        console.log(userName + " has left the " + room + " room");
+        
+        socket.emit('leave', {'username': userName, 'room': room, "user_id": currentUserID});
+        
+        window.location.origin;
+        
+        window.location.href = window.location.origin;
+    
+        });
+    
+    socket.on("leave", function(msg){
+        
+        console.log("MSG");
+        console.log(msg);
+        console.log(msg["left"]);
+        
+        var userLeft= msg["left"];
+        
+        var usersDict = msg["users_dict"][room];
+        console.log(usersDict);
+   
+        var usersList = Object.keys(usersDict);
+        
+        console.log("LEAVING USER", usersList);
+        
+        totalUsers.innerText = usersList.length;
+
+        chatUsersList.innerHTML = "";
+        
+        for(var i = 0; i < usersList.length; i++){
+            
+            console.log("Added", i);
+                        
+            var ID = usersList[i];
+            console.log(ID);
+            
+            var addUser = usersDict[ID];
+            console.log(addUser);
+            
+            var userName = addUser["username"];
+            var userID = addUser["user_id"];
+            var image = addUser["image"];
+            var newName = userName[0].toUpperCase() + userName.slice(1,);
+            
+            
+            console.log(addUser);
+            chatUsersList.innerHTML += "<div class='user-info' id='user-" + userID + "'>"
+                    + "<a href='/profile/" + userID + "/" + userName + "' >"
+                + "<img src=" + image + " class='user-image'>"
+               +  "<span class='user-name'>" + newName + "</span></a>"
+                    + "</div>";
+
+        }
+        
+        
+             $("#messages").append("<div>" + userLeft + "</div>");
+        
+        
+    });
+    
+    
+    
+    
+    
+});
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock base %}
