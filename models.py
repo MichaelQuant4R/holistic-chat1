@@ -10,8 +10,6 @@ from flask_socketio import SocketIO
 from flask_wtf import CSRFProtect
 from werkzeug.security import (generate_password_hash, check_password_hash)
 
-
-
 app = Flask(__name__)
 
 
@@ -23,7 +21,7 @@ csrf = CSRFProtect(app)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgres://aergufyovfuljj:72574957842209fe91b903dfa4efdb4c1b474e0271223997e47bb18f52b0cec0@ec2-34-202-5-87.compute-1.amazonaws.com:5432/dfoeieiamkqqvc"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SECRET_KEY"] = "my random secret key!"
+app.config["SECRET_KEY"] = '\xd2\xf6Km%\x14\xff&\xe0\x97\x05\xf1\xe1Zv\x82\x88\x00R?T*\x82\xb8D\n\xc3P[Di\x17\xb6\x05b\x1e2\xfc\xe7\xaf'
 
 
 socketio = SocketIO(app)

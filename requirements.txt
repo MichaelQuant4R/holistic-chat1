@@ -13,3 +13,5 @@ gunicorn==19.9.0
 psycopg2==2.8.4
 email-validator==1.1.1
 eventlet==0.30.0
+gevent-websocket==0.10.1
+gevent==1.4.0
