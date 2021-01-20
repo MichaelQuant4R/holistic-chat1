@@ -16,3 +16,4 @@ eventlet==0.30.0
 gevent-websocket==0.10.1
 gevent==1.4.0
 greenlet==0.4.15
+tornado==6.0.3
