@@ -10,6 +10,26 @@
 <style>
     
     
+#user-image{
+    
+    
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    border:2px solid SkyBlue;
+    
+    margin:5px;
+    }
+    
+    
+#user-container{
+    
+    
+    background-color:rgba(10, 40, 80,0.4);
+    padding:10px;
+    width:25%;
+    height:200px;
+    }
     
     
 </style>
@@ -21,8 +41,13 @@
 <h4>{{title.title()}}</h4>
 <hr>
 
+<div id="user-container">
+
+<img src="{{user.get_image()}}" id="user-image">
+<h4>{{user.username.title()}}</h4>
 
 
+</div>
 
 
 

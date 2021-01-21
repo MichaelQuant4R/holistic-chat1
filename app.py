@@ -213,7 +213,21 @@ def logout():
 @login_required
 def profile(user_id, username):
     
-    return render_template("profile.html", title = "profile")
+    
+    user = User.query.filter_by(id = user_id).first()
+    
+    
+    if user is None:
+        
+        
+        flash("This user does not exist!", "info")
+        return redirect(url_for("home"))
+    
+    
+    
+    
+    return render_template("profile.html", title = "profile",
+                           user = user)
 
 
 
