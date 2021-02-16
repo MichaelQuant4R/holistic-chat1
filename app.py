@@ -23,6 +23,9 @@ app.register_blueprint(app_mod)
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
+    
+welcome_text = {"text": "Login and enter one of the rooms to chat in"}
+        
 
 
 
@@ -44,13 +47,11 @@ def home():
     print(users)
     
     
-    
-        
-
 
     
     return render_template("home.html", title = "home", 
-                           
+                           welcome_text = "Login and enter one of the rooms to chat in",
+                          text = "Something random",
                            rooms_dict = rooms_dict)
 
 
@@ -227,14 +228,19 @@ def profile(user_id, username):
     
     
     return render_template("profile.html", title = "profile",
-                           user = user)
+                           user = user,
+                           welcome_text = welcome_text,
+                           check = "checking this out")
 
 
 
 @app.route("/test")
 def test():
-    
-    return render_template("test.html", title = "test")
+    print("WELCOME!!!")
+    print(welcome_text)
+    return render_template("test.html", title = "test",
+                           welcome_text = welcome_text,
+                           check = "checking this out")
 
 
 
@@ -251,8 +257,8 @@ def test():
 
 
 if __name__ == "__main__":
-#     socketio.run(app, debug = False)
-    app.run(debug = False)
+#     socketio.run(app, debug = True)
+    app.run(debug = True)
     
     
     
